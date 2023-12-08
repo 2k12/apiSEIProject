@@ -10,14 +10,16 @@ const app = express();
 
 
 // server configuration 
-app.set("port",process.env.PORT || 3000);
+app.set("port",process.env.PORT || 4000);
 app.set("url",`Server running in http://localhost:${app.get("port")}`);
 
 
 
 // middlewares
+app.use(cors({
+    origin: 'http://localhost:5173',
+}));
 app.use(express.json());
-app.use(cors());
 app.use(morgan('dev'));
 app.use(cookieParser());
 
