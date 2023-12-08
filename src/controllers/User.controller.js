@@ -63,7 +63,7 @@ export const CreateUser = async (req, res) => {
         const { name, email, password, is_2fa_enabled, secret_2fa } = req.body;
         const passwordHash = await bcrypt.hash(password,10);
         const newUser = await User.createUser(name, email, passwordHash, is_2fa_enabled, secret_2fa);
-        const token = await createAccessToken({ userId: newUser.id, userEmail: newUser.email });
+        const token = await createAccessToken({ id: newUser.id, name : newUser.name ,email: newUser.email });
 
         res.cookie("token",token);
         res.status(200).json({message: "Usuario Creado Satisfactoriamente"});
@@ -85,7 +85,7 @@ export const Login = async (req, res) => {
 
         if(!isMatch) return res.status(400).json({message:"Contraseña Incorrecta"});
 
-        const token = await createAccessToken({ userId: userFound.id, userEmail: userFound.email });
+        const token = await createAccessToken({ id: userFound.id, name: userFound.name ,email: userFound.email });
 
         res.cookie("token",token);
         res.status(200).json({message: "Usuario Logueado"});
@@ -97,10 +97,16 @@ export const Login = async (req, res) => {
     }
 };
 
-export const Logout = async (req, res) => {
+export const Logout = (req, res) => {
     res.cookie("token","",{
         expires : new Date (0)
     })
     return res.sendStatus(200);
 };
+
+export const Profile  = async (req,res) => {
+    const userFound = await User.getUser(req.user.id);
+    if(!userFound) return res.status(400).json({message :"Usuario no encontrado"});
+    res.json(userFound);
+}
 

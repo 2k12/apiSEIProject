@@ -1,6 +1,26 @@
 import { pool } from "../db/db.js";
 
 class User {
+    static async getDataofUserbyEmail(userEmail) {
+        const result = await pool.query(`SELECT
+            u.id AS user_id,
+            u.name AS user_name,
+            u.email AS user_email,
+            u.is_2fa_enabled,
+            u.secret_2fa,
+            r.name AS role_name,
+            p.name AS permission_name
+                FROM
+            users u
+            JOIN usersroles ur ON u.id = ur.user_id
+            JOIN roles r ON ur.role_id = r.id
+            JOIN rolespermissions rp ON r.id = rp.role_id
+            JOIN permissions p ON rp.permission_id = p.id
+                WHERE
+            u.email = $1`,[userEmail]);
+        return result.rows;
+
+    }
     static async getAllUsers() {
         const result = await pool.query(`SELECT * FROM users`);
         return result.rows;

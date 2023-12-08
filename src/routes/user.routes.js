@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { GetUsers,GetUser,CreateUser,UpdateUser,DeleteUser,Login, Logout } from "../controllers/User.controller.js";
-
+import { GetUsers,GetUser,CreateUser,UpdateUser,DeleteUser,Login, Logout ,Profile} from "../controllers/User.controller.js";
+import { authRequired } from "../middlewares/validateToken.js";
 
 const router = Router();
 
@@ -13,6 +13,7 @@ router.delete("/user/:idUser", DeleteUser);
 router.post("/create", CreateUser);
 router.post("/login", Login);
 router.post("/logout", Logout);
+router.get("/profile", authRequired , Profile);
 
 
 export default router;
