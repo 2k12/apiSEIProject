@@ -6,8 +6,8 @@ const router = Router();
 
 router.get("/users", GetUsers);
 router.get("/user/:idUser", GetUser);
-router.put("/user/:idUser", UpdateUser);
-router.delete("/user/:idUser", DeleteUser);
+router.put("/user/:idUser", authRequired , UpdateUser);
+router.delete("/user/:idUser", authRequired ,DeleteUser);
 
 // !importants
 router.post("/create", CreateUser);

@@ -28,21 +28,23 @@ export const GetProduct = async (req, res) => {
 export const CreateProduct = async (req, res) => {
     try {
         const { name, price, quantity } = req.body;
-        const newProduct = await Product.createProduct(name, price, quantity);
+        const audit_user_id = req.user.id; 
+        const newProduct = await Product.createProduct(name, price, quantity, audit_user_id);
         res.status(201).json({ data: newProduct });
     } catch (error) {
         if (error instanceof Error) {
             res.status(500).send(error);
         }
     }
-}
+};
 
 
 export const UpdateProduct = async (req, res) => {
     try {
         const { idProduct } = req.params;
         const { name, price, quantity } = req.body;
-        const updatedProduct = await Product.updateProduct(idProduct, name, price, quantity);
+        const audit_user_id = req.user.id; 
+        const updatedProduct = await Product.updateProduct(idProduct, name, price, quantity, audit_user_id);
         if (!updatedProduct) return res.status(404).json({ error: "Producto no encontrado" });
         res.status(200).json({ data: updatedProduct });
     } catch (error) {
@@ -50,12 +52,13 @@ export const UpdateProduct = async (req, res) => {
             res.status(500).send(error);
         }
     }
-}
+};
 
 export const DeleteProduct = async (req, res) => {
     try {
         const { idProduct } = req.params;
-        const deletedProduct = await Product.deleteProduct(idProduct);
+        const audit_user_id = req.user.id; 
+        const deletedProduct = await Product.deleteProduct(idProduct, audit_user_id);
         if (!deletedProduct) return res.status(404).json({ error: "Producto no encontrado" });
         res.status(200).json({ data: deletedProduct });
     } catch (error) {
@@ -63,4 +66,4 @@ export const DeleteProduct = async (req, res) => {
             res.status(500).send(error);
         }
     }
-}
+};
