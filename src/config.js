@@ -10,4 +10,4 @@ export const db = {
     database: process.env.DB_DATABASE,
 }
 
-export const secretjwt = {secret : process.env.DB_SECRET_FOR_TOKEN}
+export const secretjwt = { secret: process.env.DB_SECRET_FOR_TOKEN }
