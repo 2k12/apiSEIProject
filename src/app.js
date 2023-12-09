@@ -4,14 +4,15 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import productRoutes from "./routes/product.routes.js";
 import userRoutes from "./routes/user.routes.js";
+import clientRoutes from "./routes/clients.routes.js";
 
 
 const app = express();
 
 
 // server configuration 
-app.set("port",process.env.PORT || 4000);
-app.set("url",`Server running in http://localhost:${app.get("port")}`);
+app.set("port", process.env.PORT || 4000);
+app.set("url", `Server running in http://localhost:${app.get("port")}`);
 
 
 
@@ -26,8 +27,8 @@ app.use(cookieParser());
 
 
 // routes
-app.use("/api",productRoutes);
-app.use("/api",userRoutes);
-
+app.use("/api", productRoutes);
+app.use("/api", userRoutes);
+app.use("/api", clientRoutes);
 
 export default app;
