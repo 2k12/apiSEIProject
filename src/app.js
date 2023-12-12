@@ -6,7 +6,15 @@ import productRoutes from "./routes/product.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import clientRoutes from "./routes/clients.routes.js";
 import PermissionsRoutes from './routes/permissions.routes.js';
+<<<<<<< Updated upstream
 import usersroles from './routes/usersroles.routes.js';
+=======
+import rolesRoutes from './routes/roles.routes.js'; 
+import rolesPermissionsRoutes from './routes/rolesPermissions.routes.js'; 
+
+
+
+>>>>>>> Stashed changes
 
 const app = express();
 
@@ -32,6 +40,13 @@ app.use("/api", productRoutes);
 app.use("/api", userRoutes);
 app.use("/api", clientRoutes);
 app.use("/api", PermissionsRoutes);
+<<<<<<< Updated upstream
 app.use("/api", usersroles);
+=======
+app.use("/api", rolesRoutes);
+app.use("/api", rolesPermissionsRoutes);
+
+
+>>>>>>> Stashed changes
 
 export default app;
