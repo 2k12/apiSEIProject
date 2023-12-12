@@ -7,6 +7,7 @@ import userRoutes from "./routes/user.routes.js";
 import clientRoutes from "./routes/clients.routes.js";
 import PermissionsRoutes from './routes/permissions.routes.js';
 import usersroles from './routes/usersroles.routes.js';
+import Orders from './routes/orders.routes.js';
 
 const app = express();
 
@@ -33,5 +34,6 @@ app.use("/api", userRoutes);
 app.use("/api", clientRoutes);
 app.use("/api", PermissionsRoutes);
 app.use("/api", usersroles);
+app.use("/api", Orders)
 
 export default app;
