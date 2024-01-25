@@ -1,6 +1,5 @@
 import { pool } from "../db/db.js";
 
-
 class Product {
     static async getAllProducts(){
         const result = await pool.query(`SELECT * FROM products`);
@@ -37,6 +36,5 @@ class Product {
     }
     
 }
-
 
 export default Product;
