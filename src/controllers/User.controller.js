@@ -97,16 +97,16 @@ export const DeleteUser = async (req, res) => {
 
 export const CreateUser = async (req, res) => {
     try {
-        const { name, email, password, is_2fa_enabled, secret_2fa } = req.body;
+        const { name, email, password } = req.body;
         const userFound = await User.getUserbyEmail(email);
         if (userFound) return res.status(400).json({ error: 'Email ya Registrado.' });
 
         const passwordHash = await bcrypt.hash(password, 10);
-        const newUser = await User.createUser(name, email, passwordHash, is_2fa_enabled, secret_2fa);
+        const newUser = await User.createUser(name, email, passwordHash);
         const token = await createAccessToken({ id: newUser.id, name: newUser.name, email: newUser.email });
 
-        res.cookie("token", token);
-        res.status(200).json(["Usuario Creado Satisfactoriamente"]);
+        // res.cookie("token", token);
+        res.sendStatus(200);
 
     } catch (error) {
         if (error instanceof Error) {
@@ -202,6 +202,39 @@ export const sendEmailC = async (req, res) => {
                     <span style="font-size: 18px;">${verificationToken}</span>
                 </div>
                 <p>Si no has solicitado este código, por favor ignora este mensaje y comunícate con soporte.</p>
+                <p style="font-size: 14px; color: #666;">Equipo de SEI_App 🌟</p>
+            </div>
+        `,
+    };
+
+    try {
+        await sendEmail(emailOptions);
+        await UpdateTwoToken(userFound[0].user_id, verificationToken);
+        res.status(200).json({ message: 'Por favor, verifica tu token de 2FA.' });
+    } catch (error) {
+        console.error("Error al enviar correo electrónico:", error);
+        res.status(500).json({ message: 'Error al enviar el correo electrónico.' });
+    }
+    return;
+}
+export const sendEmailCD = async (req, res) => {
+    const { email } = req.body;
+    // const  email  = "prueba@gmail.com";
+    const userFound = await User.getDataofUserbyEmail(email);
+    if (!userFound) return res.status(400).json({ error: "Usuario no encontrado" });
+    const verificationToken = generateRandomNumber();
+    const emailOptions = {
+        to: userFound[0].user_email,
+        // to: 'jeipige@gmail.com',
+        subject: 'Inicio de Sesión!',
+
+        text: `Hola, ${userFound[0].user_name}.`,
+        html: `
+            <div style="background-color: #f2f3f5; color: #333; padding: 20px; text-align: center; font-family: Arial, sans-serif;">
+                <h1 style="color: #4a76a8;">Hola, ${userFound[0].user_name}! 👋</h1>
+                <p>Se ha iniciado Sesión en tu cuenta de SEI_App .</p>
+                
+                <p>Si no has sido tu quien ha iniciado Sesión, por favor  comunícate con soporte.</p>
                 <p style="font-size: 14px; color: #666;">Equipo de SEI_App 🌟</p>
             </div>
         `,
