@@ -11,3 +11,10 @@ export const db = {
 }
 
 export const secretjwt = { secret: process.env.DB_SECRET_FOR_TOKEN }
+
+export const nodemailerdata = {
+    email: process.env.EMAIL_USERNAME,
+    password: process.env.EMAIL_PASSWORD
+}
+
+export const secretcodeg = process.env.SECRET_RANDOM_CODE.length; 

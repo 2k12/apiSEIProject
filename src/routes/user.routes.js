@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { GetUsers,GetUser,CreateUser,UpdateUser,DeleteUser,Login, Logout ,Profile} from "../controllers/User.controller.js";
+import { GetUsers,GetUser,CreateUser,UpdateUser,DeleteUser,Login, Logout ,Profile, CompareTwoToken, sendEmailC} from "../controllers/User.controller.js";
 import { authRequired } from "../middlewares/validateToken.js";
 import { validateSchema } from "../middlewares/validator.middleware.js";
 import { loginSchema,registerSchema } from "../schemas/auth.schema.js";
@@ -12,9 +12,13 @@ router.delete("/user/:idUser", authRequired ,DeleteUser);
 
 // !importants
 router.post("/register", validateSchema(registerSchema),CreateUser);
-router.post("/login", validateSchema(loginSchema),Login);
+router.post("/login", Login);
 router.post("/logout", Logout);
+router.post("/verify-code", CompareTwoToken);
+router.post("/send-email", sendEmailC);
 router.get("/profile", authRequired , Profile);
+
+
 
 
 export default router;

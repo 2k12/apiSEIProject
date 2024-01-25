@@ -5,7 +5,7 @@ export const GetProducts = async (req, res) => {
     try {
         const products = await Product.getAllProducts();
         if (!products) return res.status(404).json({ error: "No se cargaron los datos" });
-        res.status(200).json({ data: products });
+        res.status(200).json( products );
     } catch (error) {
         if (error instanceof Error) {
             res.status(500).send(error);
